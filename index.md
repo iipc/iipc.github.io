@@ -9,7 +9,7 @@ IIPC Development Landing Site
 * [IIPC GitHub Homepage](https://github.com/iipc)
 * [IIPC Setup Issue Tracker](https://github.com/iipc/iipc.github.io/issues)
 * [OpenWayback-dev mailing list](https://groups.google.com/forum/#!forum/open-wayback-dev)
-* OpenWayback Meeting Notes 2013-09-11 Paris:
+* OpenWayback Meeting Notes, Paris (2013-09-11)
     * [Open Wayback Kick-Off Issues](https://docs.google.com/spreadsheet/ccc?key=0AsZzGhlaygesdE05cW9NZER3dF9nTjVxM1d2YVNrTGc#gid=0)
     * [Wayback development ideas](https://docs.google.com/document/d/1bAsTD0gpouSjNZ71ggQnsmnZC9mUsaw-s7hlVTXQewc/edit#)
 * For Reference
