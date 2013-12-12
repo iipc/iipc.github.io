@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Wayback - Resource Store Configuration</title>
+    <style type="text/css" media="all">
+      @import url("./css/maven-base.css");
+      @import url("./css/maven-theme.css");
+      @import url("./css/site.css");
+    </style>
+    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+          <meta name="author" content="Brad Tofel" />
+          </head>
+  <body class="composite">
+    <div id="banner">
+                  <a href="http://archive-access.sourceforge.net/projects/wayback/" id="bannerLeft">
+    
+                                            <img src="../../Users/andy/Documents/workspace-iipc/openwayback/../../projects/openwayback" alt="" />
+    
+            </a>
+                          <span id="bannerRight">
+    
+            Wayback
+    
+            </span>
+            <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="breadcrumbs">
+          
+  
+
+  
+    
+  
+  
+    
+            <div class="xleft">
+        Last Published: 2013-12-12
+                      </div>
+            <div class="xright">            <a href="http://www.sourceforge.net" class="externalLink">Sourceforge</a>
+            |
+                <a href="http://crawler.archive.org" class="externalLink">Heritrix</a>
+            |
+                <a href="http://archive-access.sourceforge.net/projects/nutchwax/" class="externalLink">NutchWAX</a>
+            |
+                <a href="http://archive-access.sourceforge.net" class="externalLink">Archive Access</a>
+            |
+                <a href="http://www.archive.org" class="externalLink">Internet Archive</a>
+            |
+                <a href="../Users/andy/Documents/workspace-iipc/openwayback/../../projects/openwayback">Home</a>
+            
+  
+
+  
+    
+  
+  
+    
+  </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="leftColumn">
+      <div id="navcolumn">
+           
+  
+
+  
+    
+  
+  
+    
+                   <h5>Overview</h5>
+            <ul>
+              
+    <li class="none">
+                    <a href="../Users/andy/Documents/workspace-iipc/openwayback/../../projects/openwayback">Requirements</a>
+          </li>
+              
+    <li class="none">
+                    <a href="../Users/andy/Documents/workspace-iipc/openwayback/../../projects/openwayback">Downloads</a>
+          </li>
+              
+    <li class="none">
+                    <a href="../Users/andy/Documents/workspace-iipc/openwayback/../../projects/openwayback">Administrator Manual</a>
+          </li>
+              
+    <li class="none">
+                    <a href="../Users/andy/Documents/workspace-iipc/openwayback/../../projects/openwayback">URL Prefixes and AccessPoint names</a>
+          </li>
+              
+    <li class="none">
+                    <a href="../Users/andy/Documents/workspace-iipc/openwayback/../../projects/openwayback">Hadoop CDX Generation</a>
+          </li>
+              
+    <li class="none">
+                    <a href="../Users/andy/Documents/workspace-iipc/openwayback/../../projects/openwayback">Release Notes</a>
+          </li>
+              
+    <li class="none">
+                    <a href="../Users/andy/Documents/workspace-iipc/openwayback/../../projects/openwayback">FAQ</a>
+          </li>
+              
+    <li class="none">
+                    <a href="../../Users/andy/Documents/workspace-iipc/openwayback/../../projects/openwayback">API</a>
+          </li>
+              
+    <li class="none">
+                    <a href="https://webarchive.jira.com/browse/ACC/component/10031" class="externalLink">Browse/Submit a Bug</a>
+          </li>
+          </ul>
+                                           <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+            <img alt="Built by Maven" src="./images/logos/maven-feather.png"></img>
+          </a>
+                       
+  
+
+  
+    
+  
+  
+    
+        </div>
+    </div>
+    <div id="bodyColumn">
+      <div id="contentBox">
+        <revision></revision><div class="section"><h2><a name="ResourceStore_configuration_options"></a>ResourceStore configuration options</h2>
+<div class="section"><h3><a name="FileLocationDB"></a>FileLocationDB</h3>
+<p>
+          The Location Database provides a mapping between ARC/WARC file names 
+          and the absolution location of those ARC/WARC files. Absolute 
+          location, in this case, can refer to either HTTP URLs or absolute 
+          paths to files on the local file system.
+        </p>
+<p>
+          Whenever locations are added for a new filename that was not 
+          previously present in the location database, a record (in this case a
+          line) is added to a log file. This log file can then be used to 
+          determine which files have been seen by the location database. The
+          ResourceFileLocationDatabase interface includes methods to retrieve
+          the current length of this log file, and to return an iterator with
+          all records between two points in the log. This interface allows an
+          observer to poll the location database to create events when new files
+          are added to the underlying database. 
+        </p>
+</div>
+<div class="section"><h3><a name="Automatic_Indexing_Components"></a>Automatic Indexing Components</h3>
+<p>
+            Wayback includes 5 Thread/Worker classes to enable automatic indexing
+            of new content:
+            <img src="images/AutoIndexing.png" /><ul><li><b>ResourceFileSourceUpdater</b> is responsible for repeatedly
+                scanning one or more ResourceFileSource instances, creating 
+                manifests of the files seen in each, and handing the manifests
+                off to the ResourceFileLocationDBUpdater. In the future, for
+                larger installations, with 100s to 1000s of machines holding
+                ARC/WARC files, multiple instances of this component may run in
+                parallel.
+              </li>
+<li><b>ResourceFileLocationDBUpdater</b> is responsible for noticing
+                new manifests appearing in an incoming directory, and merging
+                the contents of those manifests with the actual location database,
+                which is currently implemented using a BDBJE database.
+              </li>
+<li><b>IndexQueueUpdater</b> is responsible for polling the location
+                database log, and adding newly discovered ARC/WARC files to the
+                IndexQueue. 
+              </li>
+<li><b>IndexWorker</b> is responsible for polling the IndexQueue, and
+                when file names are present in the queue, creating an index of
+                all resources in the ARC/WARC file, and handing the results to
+                the LocalResourceIndexUpdater. In the future, for larger
+                installations, multiple instances of this component may run in
+                parallel on multiple hosts, or this entire component may be 
+                replaced by a distributed Hadoop indexing implementation.
+              </li>
+<li><b>LocalResourceIndexUpdater</b> is responsible for noticing new
+                index result files appearing in an incoming directory, and merging
+                those results with an existing LocalResourceIndex. Currently the
+                only provided LocalResourceIndex that can be updated based on an
+                underlying BDBJE database, but future implementation may maintain
+                a set of sorted CDX files, or a combination of CDX files and a 
+                BDBJE database. 
+              </li>
+</ul>
+</p>
+</div>
+</div>
+<div class="section"><h2><a name="org.archive.wayback.ResourceStore_implementations"></a>org.archive.wayback.ResourceStore implementations</h2>
+<p>
+        Wayback allows for several configurations enabling diverse collection
+        sizes and distribution of ARC/WARC files across many local directories
+        or across many servers. For most configurations, the default
+        LocationDBResourceStore will suffice, but Wayback is distributed with
+        2 additional classes, FileProxy and SimpleResourceStore, which
+        provide an opportunity to insert a single HTTP caching server between
+        the Wayback service and an ARC/WARC storage cluster.
+      </p>
+<div class="section"><h3><a name="LocationDBResourceStore"></a>LocationDBResourceStore</h3>
+<p>
+          This implementation uses a LocationDB to convert ARC/WARC filenames
+          into absolute paths, or HTTP URLs. The underlying LocationDB can be
+          managed by the automatic indexing threads as described above, or it
+          can be manually managed with the <i>location-client</i> command line
+          tool. Be sure to enable the 
+          org.archive.wayback.resourcestore.locationdb.FileProxyServlet
+          if you plan to manage the LocationDB manually.
+        </p>
+</div>
+<div class="section"><h3><a name="SimpleResourceStore"></a>SimpleResourceStore</h3>
+<p>
+      	  This configuration depends on all ARC/WARC files appearing within a
+      	  single HTTP 1.1 exported root directory, or within a single local
+      	  directory. ARC/WARC file names are appended to a common prefix, either
+      	  a local directory on the host running Wayback, or under a single 
+      	  remote directory.
+      	</p>
+<p>
+          The FileProxyServlet can be used to make all ARC/WARC files accessible
+          within a single HTTP directory, acting as a reverse proxy to the 
+          actual host holding the ARC/WARC files. The FileProxyServlet uses a
+          LocationDB to translate requested ARC/WARC filenames into the actual
+          location of each file.
+      	</p>
+</div>
+</div>
+<div class="section"><h2><a name="Telling_Wayback_where_to_look_for_your_ARCWARC_files"></a>Telling Wayback where to look for your ARC/WARC files</h2>
+<p>
+        When using the automatic indexing functionality, you need to provide a
+        list of ResourceFileSource objects to the ResourceFileSourceUpdater
+        class. Wayback currently contains 2 ResourceFileSource implementations:
+        <ul><li><b>DirectoryResourceFileSource</b> will recursively scan a local
+            directory for ARC/WARC files (ending with: .arc, .arc.gz, .warc,
+            or .warc.gz). The 'name' property of each
+            DirectoryResourceFileSource must be unique, and consist of valid
+            filename characters.
+          </li>
+<li><b>JspUrlResourceFileSource</b> is a highly experimental 
+            implementation which executes a local .jsp file, passing the 'url'
+            parameter to the .jsp. The local .jsp is expected to produce output
+            of the form (NAME URL) for all ARC/WARC files appearing under the
+            argument url prefix, presumably by parsing the directory index HTML
+            from the server hosting 'url'.
+          </li>
+</ul>
+</p>
+</div>
+
+      </div>
+    </div>
+    <div class="clear">
+      <hr/>
+    </div>
+    <div id="footer">
+      <div class="xright">&#169;  
+          2005-2013
+    
+          IIPC
+          
+  
+
+  
+    
+  
+  
+    
+  </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+  </body>
+</html>
