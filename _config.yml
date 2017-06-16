@@ -1,1 +1,19 @@
+# Setup
+title:        IIPC
+tagline:      IIPC Open Development
+baseurl:      ""
+paginate:     1
+
+# About/contact
+author:
+  name:       IIPC
+  url:        http://netpreserve.org
+
+# Gems
+gems:
+  - jekyll-paginate
+
+#Others
+markdown: kramdown
+
 theme: jekyll-theme-cayman
