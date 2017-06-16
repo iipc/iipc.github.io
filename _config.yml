@@ -1,2 +1,4 @@
 markdown:      rdiscount
 markdown_ext:  markdown,mkd,mkdn,md
+
+theme: jekyll-theme-cayman
